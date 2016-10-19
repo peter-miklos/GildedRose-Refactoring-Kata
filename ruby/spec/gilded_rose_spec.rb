@@ -47,7 +47,7 @@ describe GildedRose do
         expect(items.first.quality).to eq 32
       end
 
-      it "doesn't increase the value of the 'Aged Brie' if it's already 50" do
+      it "doesn't increase the value at EOD if it's already 50" do
         items = [Item.new("Aged Brie", 30, 50)]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 50
@@ -71,6 +71,12 @@ describe GildedRose do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 4, 30)]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 33
+      end
+
+      it "doesn't increase the value at EOD if it's already 50" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 4, 50)]
+        GildedRose.new(items).update_quality
+        expect(items.first.quality).to eq 50
       end
 
       it "drops to 0 after the concert" do
