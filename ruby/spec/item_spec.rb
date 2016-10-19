@@ -18,8 +18,7 @@ describe Item do
 
   context "#set_sell_in" do
     it "lowers the sell_in value by one if -1 received" do
-      item1.set_sell_in(-1)
-      expect(item1.sell_in).to eq 9
+      expect{item1.set_sell_in(-1)}.to change{item1.sell_in}.from(10).to(9)
     end
   end
 
@@ -31,13 +30,11 @@ describe Item do
 
   context "#set_quality" do
     it "lowers the quality value by one if -1 received" do
-      item1.set_quality(-1)
-      expect(item1.quality).to eq 44
+      expect{item1.set_quality(-1)}.to change{item1.quality}.from(45).to(44)
     end
 
     it "decrease the quality value by two if 2 received" do
-      item1.set_quality(2)
-      expect(item1.quality).to eq 47
+      expect{item1.set_quality(1)}.to change{item1.quality}.from(45).to(46)
     end
   end
 

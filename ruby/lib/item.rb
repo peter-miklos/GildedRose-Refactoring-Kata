@@ -1,5 +1,4 @@
 class Item
-  attr_reader :sell_in, :quality
 
   def initialize(name, sell_in, quality)
     @name = name
