@@ -23,7 +23,7 @@ class GildedRose
   private
 
   def update_sell_in(item)
-    item.sell_in -= CHANGED_DAYS
+    item.set_sell_in(-CHANGED_DAYS)
   end
 
   def update_quality_of_an_item(item)
@@ -33,21 +33,21 @@ class GildedRose
   end
 
   def update_aged_brie_quality(item)
-    item.quality += Q_CHANGE
-    item.quality += Q_CHANGE if double_the_quality_change?(item)
+    item.set_quality(Q_CHANGE)
+    item.set_quality(Q_CHANGE) if double_the_quality_change?(item)
   end
 
   def update_b_pass_quality(item)
-    if item.sell_in < 1 then item.quality -= item.quality
-    elsif item.sell_in < 6 then item.quality += Q_CHANGE * 3
-    elsif item.sell_in < 11 then item.quality += Q_CHANGE * 2
-    else item.quality += Q_CHANGE
+    if item.sell_in < 1 then item.set_quality(-item.quality)
+    elsif item.sell_in < 6 then item.set_quality(Q_CHANGE * 3)
+    elsif item.sell_in < 11 then item.set_quality(Q_CHANGE * 2)
+    else item.set_quality(Q_CHANGE)
     end
   end
 
   def update_normal_items_quality(item)
-    item.quality -= Q_CHANGE
-    item.quality -= Q_CHANGE if double_the_quality_change?(item)
+    item.set_quality(-Q_CHANGE)
+    item.set_quality(-Q_CHANGE) if double_the_quality_change?(item)
   end
 
   def double_the_quality_change?(item)

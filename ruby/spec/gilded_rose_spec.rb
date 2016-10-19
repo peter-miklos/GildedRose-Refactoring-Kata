@@ -2,11 +2,19 @@ require 'gilded_rose'
 
 describe GildedRose do
 
+  let(:item1) {double(:item1, name: "test_item", sell_in: 30, quality: 29,
+                              set_sell_in: 29, set_quality: 29)}
+  let(:item2) {double(:item1, name: "Aged Brie", sell_in: 30, quality: 29,
+                              set_sell_in: 29, set_quality: 29)}
+  let(:item3) {double(:item1, name: "Backstage passes to a TAFKAL80ETC concert",
+                              sell_in: 30, quality: 29, set_sell_in: 29,
+                              set_quality: 29)}
+
   describe "#update_quality" do
     context "name of the item" do
 
       it "does not change the name" do
-        items = [Item.new("foo", 0, 0)]
+        items = [item1]
         GildedRose.new(items).update_quality()
         expect(items[0].name).not_to eq "fixme"
       end
@@ -16,13 +24,14 @@ describe GildedRose do
     context "normal item's quality" do
 
       it "lowers the value by one at EOD if sell by date has not passed" do
-        items = [Item.new("test_item", 30, 30)]
+        items = [item1]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 29
       end
 
       it "lowers the value by two at EOD if sell by date has passed" do
-        items = [Item.new("test_item", -1, 30)]
+        allow(item1).to receive(:quality).and_return(28)
+        items = [item1]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 28
       end
