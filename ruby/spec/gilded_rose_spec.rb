@@ -15,14 +15,20 @@ describe GildedRose do
 
     context "normal item's quality" do
 
-      it "lowers the value by one at EOD" do
+      it "lowers the value by one at EOD if sell_in value is not 0" do
         items = [Item.new("test_item", 30, 30)]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 29
       end
 
+      it "lowers the value by two at EOD if sell_in value is 0 or less" do
+        items = [Item.new("test_item", -1, 30)]
+        GildedRose.new(items).update_quality
+        expect(items.first.quality).to eq 28
+      end
+
       it "doesn't lower the value at EOD if it's already 0" do
-        items = [Item.new("test_item", 0, 0)]
+        items = [Item.new("test_item", 5, 0)]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 0
       end
@@ -63,10 +69,32 @@ describe GildedRose do
       end
 
       it "increases the value by three at EOD if 5 days or less left" do
-        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 30)]
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 30)]
         GildedRose.new(items).update_quality
-        expect(items.first.quality).to eq 32
+        expect(items.first.quality).to eq 33
       end
+
+      it "drops to 0 after the concert" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 30)]
+        GildedRose.new(items).update_quality
+        expect(items.first.quality).to eq 0
+      end
+    end
+
+    context "sell_in of all items" do
+
+      it "lowers the value by one at EOD" do
+        items = [Item.new("test_item", 20, 30)]
+        GildedRose.new(items).update_quality
+        expect(items.first.sell_in).to eq 19
+      end
+
+      it "value can be negative" do
+        items = [Item.new("Aged Brie", 0, 10)]
+        GildedRose.new(items).update_quality
+        expect(items.first.sell_in).to eq -1
+      end
+
     end
 
   end
