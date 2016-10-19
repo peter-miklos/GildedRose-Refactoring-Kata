@@ -41,14 +41,20 @@ describe GildedRose do
         expect(items.first.quality).to eq 31
       end
 
+      it "doesn't increase the value at EOD if it's already 50" do
+        items = [Item.new("Aged Brie", 30, 50)]
+        GildedRose.new(items).update_quality
+        expect(items.first.quality).to eq 50
+      end
+
       it "increases the value by two at EOD if sell by date has passed" do
         items = [Item.new("Aged Brie", 0, 30)]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 32
       end
 
-      it "doesn't increase the value at EOD if it's already 50" do
-        items = [Item.new("Aged Brie", 30, 50)]
+      it "set the value to 50 from 49 at EOD if sell by date has passed" do
+        items = [Item.new("Aged Brie", 0, 49)]
         GildedRose.new(items).update_quality
         expect(items.first.quality).to eq 50
       end
