@@ -9,9 +9,8 @@ class GildedRose
   Q_CHANGE = 1
   CHANGED_DAYS = 1
 
-  def initialize(items, method_helper: METHOD_HELPER)
+  def initialize(items)
     @items = items
-    @method_helper = method_helper
   end
 
   def update_quality()
@@ -28,8 +27,8 @@ class GildedRose
   end
 
   def update_quality_of_an_item(item)
-    m_name = @method_helper[item.name] == nil ? "update_normal_items_quality" :
-             "update_#{@method_helper[item.name]}_quality"
+    m_name = METHOD_HELPER[item.name] == nil ? "update_normal_items_quality" :
+             "update_#{METHOD_HELPER[item.name]}_quality"
     send(m_name.to_sym, item)
   end
 
