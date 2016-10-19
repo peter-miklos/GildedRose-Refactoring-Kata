@@ -94,7 +94,15 @@ describe GildedRose do
       end
     end
 
-    context "sell_in of all items" do
+    context "sell_in of Sulfuras" do
+      it "does not lower the value by one at EOD" do
+        items = [Item.new("Sulfuras, Hand of Ragnaros", 30, 30)]
+        GildedRose.new(items).update_quality
+        expect(items.first.sell_in).to eq 30
+      end
+    end
+
+    context "sell_in of all other items" do
       it "lowers the value by one at EOD" do
         items = [Item.new("test_item", 20, 30)]
         GildedRose.new(items).update_quality
